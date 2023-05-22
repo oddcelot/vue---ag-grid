@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue';
 import Grid from './components/Grid.vue';
 </script>
 
@@ -11,8 +10,11 @@ import Grid from './components/Grid.vue';
     <a href="https://vuejs.org/" target="_blank">
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
+    <br />
+    <a href="https://ag-grid.com/" target="_blank">
+      <img src="https://blog.ag-grid.com/content/images/2021/02/logo-white.svg" class="logo ag-grid" alt="Vue logo" />
+    </a>
   </div>
-  <HelloWorld msg="Vite + Vue" />
   <Grid />
 </template>
 
@@ -28,5 +30,8 @@ import Grid from './components/Grid.vue';
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+.logo.ag-grid:hover {
+  filter: drop-shadow(0 0 2em #007bff);
 }
 </style>

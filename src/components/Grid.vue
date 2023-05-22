@@ -5,45 +5,38 @@ export default {
     AgGridVue,
     GridCell,
     GridCellEditor,
-    GridCellEditorClassic,
-    GridCellEditorWrapper,
   },
 };
 </script>
 
 <script setup lang="ts">
+import { usePreferredDark } from "@vueuse/core";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
 import GridCell from "./GridCell.vue";
 import GridCellEditor from "./GridCellEditor.vue";
-import GridCellEditorClassic from "./GridCellEditorClassic.vue";
-import GridCellEditorWrapper from "./GridCellEditorWrapper.vue";
-import { ColDef } from "ag-grid-community";
+import { ColDef, GridReadyEvent } from "ag-grid-community";
 
 const columnDefs: ColDef[] = [
   {
     headerName: "Make",
     field: "make",
-    editable: true,
     cellRenderer: "GridCell",
     cellRendererParams: { name: "custom" },
-    cellEditor: "GridCellEditor",
   },
   {
     headerName: "Model",
     field: "model",
-    editable: true,
-    cellEditor: "GridCellEditorWrapper",
   },
   {
     headerName: "Price",
     field: "price",
-    cellRenderer: "GridCellEditor",
     editable: true,
-    cellEditor: "GridCellEditorClassic",
+    cellEditor: "GridCellEditor",
   },
 ];
+
 const rowData = [
   { make: "Toyota", model: "Celica", price: 35000 },
   {
@@ -57,11 +50,18 @@ const rowData = [
 
 <template>
   <div class="grid">
+    <pre>{{ usePreferredDark() }}</pre>
     <AgGridVue
-      style="height: 200px"
       class="ag-theme-alpine"
+      :class="{ 'ag-theme-alpine-dark': usePreferredDark().value }"
       :columnDefs="columnDefs"
       :rowData="rowData"
+      @grid-ready="
+        ($event: GridReadyEvent<typeof rowData>) => {
+          $event.api.sizeColumnsToFit();
+        }
+      "
+      dom-layout="autoHeight"
     >
     </AgGridVue>
   </div>

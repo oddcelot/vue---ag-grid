@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ag-grid-community/core": "^29.3.5",
+    "@vueuse/core": "^10.1.2",
     "ag-grid-autocomplete-editor": "^3.0.1",
     "vue": "3.3.4"
   },
