@@ -1,0 +1,30 @@
+diff --git a/lib/VueFrameworkComponentWrapper.js b/lib/VueFrameworkComponentWrapper.js
+index a1420088d0d43af41a0b24fa0fa845b5f3e9aca2..32f2b1ae8b6509e68eccc217b663306edca67ea3 100644
+--- a/lib/VueFrameworkComponentWrapper.js
++++ b/lib/VueFrameworkComponentWrapper.js
+@@ -17,12 +17,23 @@ export class VueFrameworkComponentWrapper extends BaseComponentWrapper {
+                 super.init(params);
+             }
+             hasMethod(name) {
+-                return wrapper.getFrameworkComponentInstance()[name] != null;
++                // return wrapper.getFrameworkComponentInstance()[name] != null;
++                const componentInstance = wrapper.getFrameworkComponentInstance()
++                if (!componentInstance[name]) {
++                    return componentInstance.$.setupState[name] !== null
++                } else {
++                    return true
++                }
+             }
+             callMethod(name, args) {
+                 const componentInstance = this.getFrameworkComponentInstance();
+                 const frameworkComponentInstance = wrapper.getFrameworkComponentInstance();
+-                return frameworkComponentInstance[name].apply(componentInstance, args);
++                // return frameworkComponentInstance[name].apply(componentInstance, args);
++                if (frameworkComponentInstance[name]) {
++                    return frameworkComponentInstance[name].apply(componentInstance, args);
++                } else {
++                    return frameworkComponentInstance.$.setupState[name]?.apply(componentInstance, args);
++                }
+             }
+             addMethod(name, callback) {
+                 wrapper[name] = callback;
